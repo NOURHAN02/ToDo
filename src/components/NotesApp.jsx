@@ -35,7 +35,7 @@ export default function NotesApp({ type }) {
       JSON.stringify([...otherNotes, ...notes])
     );
   };
-
+/*
   const handleSubmit = (event) => {
     event.preventDefault();
     if (title.trim() === "" || description.trim() === "") return;
@@ -68,6 +68,42 @@ export default function NotesApp({ type }) {
     setShowForm(false);
     setNoteEdit(null);
   };
+*/
+const handleSubmit = (event) => {
+  event.preventDefault();
+  if (title.trim() === "" || description.trim() === "") return;
+
+  const now = noteEdit
+    ? new Date(`${noteEdit.date} ${noteEdit.time}`)
+    : new Date();
+
+  const newNote = {
+    id: noteEdit ? noteEdit.id : crypto.randomUUID(),
+    title,
+    description,
+    complete: noteEdit ? noteEdit.complete : false,
+    type: noteEdit ? noteEdit.type : type,
+    day: now.toLocaleString("en-US", { weekday: "long" }),
+    date: noteEdit ? noteEdit.date : now.toLocaleDateString("en-US"),
+    time: noteEdit ? noteEdit.time : now.toLocaleTimeString("en-US"),
+  };
+
+  let updatedNotes = noteEdit
+    ? noteList.map((note) => (note.id === newNote.id ? newNote : note))
+    : [...noteList, newNote];
+
+  updatedNotes.sort(
+    (a, b) =>
+      new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`)
+  );
+
+  setNoteList(updatedNotes);
+  saveNoteListInLocalStorage(updatedNotes);
+  setTitle("");
+  setDescription("");
+  setShowForm(false);
+  setNoteEdit(null);
+};
 
   const deleteNote = (id) => {
     const storedNotes = JSON.parse(localStorage.getItem("NoteLists")) || [];
@@ -121,9 +157,7 @@ export default function NotesApp({ type }) {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold text-left py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text inline-block">
-        {type} Notes
-      </h1>
+     
 
       {showForm && (
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
@@ -176,21 +210,25 @@ export default function NotesApp({ type }) {
       )}
 
       {noteList.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-screen p-6 text-center mx-auto">
-          <img
-            src="/empty_list (1).png"
-            alt="emptylist"
-            className="w-[700px] md:w-[400px] h-auto mx-auto"
-          />
-          <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-            Every day is a new opportunity for success! 🚀
-          </p>
-          <p className="text-gray-500 mt-2 text-lg">
-            Write down your tasks and take a step forward toward your goals!✨
-          </p>
-        </div>
+       <div className="flex flex-col items-center justify-center min-h-screen h-full px-6 pb-10 text-center mx-auto">
+       <img
+         src="/empty_list (1).png"
+         alt="emptylist"
+         className="w-[700px] md:w-[400px] h-auto mx-auto"
+       />
+       <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+         Every day is a new opportunity for success! 🚀
+       </p>
+       <p className="text-gray-500 mt-2 text-lg">
+         Write down your tasks and take a step forward toward your goals!✨
+       </p>
+     </div>
+     
       ) : (
         <div className="space-y-4">
+           <h1 className="text-2xl font-bold text-left py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text inline-block">
+        {type} Notes
+      </h1>
           {noteList.map((note) => (
             <div
               key={note.id}
@@ -255,7 +293,7 @@ export default function NotesApp({ type }) {
 
       <button
         onClick={() => setShowForm(true)}
-        className="fixed bottom-6 right-6 bg-gradient-to-l from-blue-500 via-purple-500 to-pink-500 text-white w-16 h-16 rounded-full text-3xl font-bold"
+        className="fixed bottom-6 right-6 bg-gradient-to-l from-blue-500 via-purple-500 to-pink-500 text-white w-16 h-16 rounded-full text-3xl font-bold hover:opacity-80 transition duration-300"
       >
         +
       </button>
