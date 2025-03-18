@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="text-white text-center p-4 mt-auto">
+    <footer className="text-white text-center p-4 mt-auto  bg-[#0A0A0A]">
       <p>© 2025 ToDo App.</p>
       <p>
         Developed by{" "}

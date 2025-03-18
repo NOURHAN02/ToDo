@@ -16,7 +16,7 @@ export default function Header() {
   };
 
   return (
-    <header className=" p-4">
+    <header className=" p-4  bg-[#0A0A0A]">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
           ToDo

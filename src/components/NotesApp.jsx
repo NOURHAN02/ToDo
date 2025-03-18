@@ -210,7 +210,7 @@ const handleSubmit = (event) => {
       )}
 
       {noteList.length === 0 ? (
-       <div className="flex flex-col items-center justify-center min-h-screen h-full px-6 pb-10 text-center mx-auto">
+       <div className="bg-[#0A0A0A] flex flex-col items-center justify-center min-h-screen h-full px-6 pb-10 text-center mx-auto">
        <img
          src="/empty_list (1).png"
          alt="emptylist"
@@ -225,7 +225,7 @@ const handleSubmit = (event) => {
      </div>
      
       ) : (
-        <div className="space-y-4">
+        <div className="bg-[#0A0A0A] space-y-4">
            <h1 className="text-2xl font-bold text-left py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text inline-block">
         {type} Notes
       </h1>
